@@ -1,0 +1,16 @@
+[package]
+name = "ethers"
+version = "0.1.0"
+edition = "2018"
+
+[lib]
+name = "ethers"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.16.1", features = ["extension-module"] }
+pyo3-asyncio = { version = "0.16", features = ["attributes", "tokio-runtime"] }
+ethers = { git = "https://github.com/gakonst/ethers-rs", features = ["ws", "rustls", "abigen", "ipc"]}
+tokio = "1.9"
+
+[workspace]
