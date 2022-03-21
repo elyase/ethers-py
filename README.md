@@ -1,7 +1,18 @@
 # ethers-py
-Python library for interacting with the Ethereum Blockchain
+Python library for interacting with the Ethereum Blockchain 
 
-Mostly a wrapper around the great [ethers-rs](https://github.com/gakonst/ethers-rs)
+(essentially a wrapper around the great [ethers-rs](https://github.com/gakonst/ethers-rs))
+
+
+## Usage/Examples
+
+```python
+from ethers.providers import HTTPProvider
+
+provider = HTTPProvider("https://mainnet.infura.io/v3/your_infura_id")
+block_number = await provider.get_block_number()
+# 14429070
+```
 
 ## Features
 
