@@ -1,7 +1,9 @@
 # ethers-py
-Python library for interacting with the Ethereum Blockchain 
 
-(essentially a wrapper around the great [ethers-rs](https://github.com/gakonst/ethers-rs))
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
+
+
+Python library for interacting with the Ethereum Blockchain aka bindings for the great [ethers-rs](https://github.com/gakonst/ethers-rs))
 
 
 ## Usage/Examples
