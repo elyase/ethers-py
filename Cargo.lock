@@ -826,6 +826,9 @@ dependencies = [
  "ethers 0.6.0",
  "pyo3",
  "pyo3-asyncio",
+ "pythonize",
+ "serde",
+ "serde_json",
  "tokio",
 ]
 
@@ -2204,6 +2207,16 @@ dependencies = [
  "pyo3-build-config",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "pythonize"
+version = "0.16.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "af9dc8ab903e422af4752dc4ad0d176147a71c9c1c982e1a513ba7a6438c1635"
+dependencies = [
+ "pyo3",
+ "serde",
 ]
 
 [[package]]
