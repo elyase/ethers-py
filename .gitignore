@@ -147,3 +147,4 @@ test-crates/venvs/
 .direnv/
 
 .vscode/settings.json
+.envrc
