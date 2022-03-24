@@ -12,5 +12,7 @@ pyo3 = { version = "0.16.1", features = ["extension-module"] }
 pyo3-asyncio = { version = "0.16", features = ["attributes", "tokio-runtime"] }
 ethers = { git = "https://github.com/gakonst/ethers-rs", features = ["ws", "rustls", "abigen", "ipc"]}
 tokio = "1.9"
-
+serde_json = "1.0"
+pythonize = "0.16.0"
+serde = "1.0.136"
 [workspace]
