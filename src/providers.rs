@@ -32,7 +32,7 @@ impl HTTPProvider {
         }
     }
 
-    /// /// Gets the block at `block_number`
+    /// Gets the block at `block_number`
     ///
     /// Args:
     ///     block_number (:obj:`int`):
