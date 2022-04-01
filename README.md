@@ -1,11 +1,15 @@
 # ethers-py
-
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
-
 Python library for interacting with the Ethereum Blockchain and bindings for the great [ethers-rs](https://github.com/gakonst/ethers-rs)
 
-
 ## Usage/Examples
+
+Until [wheels for pypi are available](https://github.com/pypa/pypi-support/issues/1794) you need to [install the rust toolchain](https://www.rust-lang.org/tools/install) and then run:
+
+```bash
+pip install git+https://github.com/elyase/ethers-py
+```
+
+## Getting started
 
 ```python
 from ethers.providers import HTTPProvider
@@ -14,6 +18,10 @@ provider = HTTPProvider("https://mainnet.infura.io/v3/your_infura_id")
 block_number = await provider.get_block_number()
 # 14429070
 ```
+
+## Documentation
+
+[Documentation](https://linktodocumentation)
 
 ## Features
 
