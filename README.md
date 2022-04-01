@@ -1,7 +1,5 @@
 # ethers-py
-Python library for interacting with the Ethereum Blockchain 
-
-(essentially a wrapper around the great [ethers-rs](https://github.com/gakonst/ethers-rs)
+Python library for interacting with the Ethereum Blockchain and bindings for the great [ethers-rs](https://github.com/gakonst/ethers-rs)
 
 
 ## Usage/Examples
