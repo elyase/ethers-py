@@ -3,7 +3,7 @@ from setuptools_rust import Binding, RustExtension
 
 extras = {}
 extras["testing"] = ["pytest"]
-extras["docs"] = ["setuptools_rust"]
+extras["docs"] = ["setuptools_rust", "sphinx-copybutton", "sphinx_book_theme"]
 
 setup(
     name="ethers",
