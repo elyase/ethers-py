@@ -280,8 +280,9 @@ def pyi_file(obj, indent=""):
         if obj.__doc__:
             body += f'{indent}"""\n{indent}{do_indent(obj.__doc__, indent)}\n{indent}"""\n'
 
-        fns = inspect.getmembers(obj, fn_predicate)
+        
 
+        fns = inspect.getmembers(obj, fn_predicate)
         # Init
         if obj.__text_signature__:
             body += f"{indent}def __init__{obj.__text_signature__}:\n"
@@ -392,6 +393,6 @@ if __name__ == "__main__":
     parser.add_argument("--check", action="store_true")
 
     args = parser.parse_args()
-    import ethers_py
+    import ethers
 
-    write(ethers_py.ethers_py, "py_src/ethers_py/", "ethers_py", check=args.check)
+    write(ethers.ethers, "py_src/ethers/", "ethers", check=args.check)

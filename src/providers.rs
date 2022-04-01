@@ -7,7 +7,13 @@ use pythonize::pythonize;
 use std::convert::TryFrom;
 use std::sync::Arc;
 
-#[pyclass]
+/// A HTTPProvider is an abstraction of a connection to the Ethereum network, providing a concise, consistent interface to standard Ethereum node functionality.
+///
+/// Args:
+///     endpoint (:obj:`str`, `optional`):
+///         The http endpoint to connect to (ex: `http://localhost:8545` or `https://mainnet.infura.io/v3/YOUR_PROJECT_ID`).
+#[pyclass(module = "ethers.providers")]
+#[pyo3(text_signature = "(self, endpoint)")]
 struct HTTPProvider {
     provider: Arc<ethers::providers::Provider<Http>>,
 }
@@ -26,6 +32,15 @@ impl HTTPProvider {
         }
     }
 
+    /// Gets the block at `block_number`
+    ///
+    /// Args:
+    ///     block_number (:obj:`int`):
+    ///         The block number to get.
+    ///
+    /// Returns:
+    ///     :obj:`dict`: Block object
+    #[pyo3(text_signature = "(self, block_number)")]
     pub fn get_block<'p>(&self, py: Python<'p>, block_number: u64) -> PyResult<&'p PyAny> {
         let provider = Arc::clone(&self.provider);
         future_into_py(py, async move {
@@ -38,14 +53,10 @@ impl HTTPProvider {
     }
 
 
-    /// Decode the given list of tokens to a final string Gets the latest block number via the `eth_BlockNumber` API
-    ///
-    /// Args:
-    ///     tokens (:obj:`List[str]`):
-    ///         The list of tokens to decode
-    ///
+    /// Gets the latest block number via the `eth_BlockNumber` API
     /// Returns:
-    ///     :obj:`str`: The decoded string
+    ///     :obj:`int`: latest block number
+    #[pyo3(text_signature = "(self)")]
     pub fn get_block_number<'p>(&self, py: Python<'p>) -> PyResult<&'p PyAny> {
         let provider = Arc::clone(&self.provider);
         future_into_py(py, async move {
