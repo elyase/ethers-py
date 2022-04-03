@@ -54,6 +54,7 @@ impl HTTPProvider {
 
 
     /// Gets the latest block number via the `eth_BlockNumber` API
+    /// 
     /// Returns:
     ///     :obj:`int`: latest block number
     #[pyo3(text_signature = "(self)")]
