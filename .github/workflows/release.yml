@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python_version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        python_version: ["3.7", "3.8", "3.9", "3.10"]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -58,7 +58,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [x64, x86]
-        python_version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        python_version: ["3.7", "3.8", "3.9", "3.10"]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -93,7 +93,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [x86_64, i686]
-        python_version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        python_version: ["3.7", "3.8", "3.9", "3.10"]
         
     steps:
     - uses: actions/checkout@v2
