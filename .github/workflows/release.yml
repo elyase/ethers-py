@@ -32,16 +32,16 @@ jobs:
         with:
           target: x86_64
           args: --release --out dist
-      - name: Install built wheel - x86_64
+      - name: Test wheel - x86_64
         run: |
           pip install ${{ env.name }} --no-index --find-links dist --force-reinstall
-          pip install pytest
+          pip install pytest pytest-asyncio
           pytest
       - name: Build wheels - universal2
         uses: messense/maturin-action@v1
         with:
           args: --release --universal2 --out dist --no-sdist
-      - name: Install built wheel - universal2
+      - name: Test wheel - universal2
         run: |
           pip install ${{ env.name }} --no-index --find-links dist --force-reinstall
           pytest
@@ -74,10 +74,10 @@ jobs:
         with:
           target: ${{ matrix.target }}
           args: --release --out dist --no-sdist
-      - name: Install built wheel
+      - name: Test wheel
         run: |
           pip install ${{ env.name }} --no-index --find-links dist --force-reinstall
-          pip install pytest
+          pip install pytest pytest-asyncio
           pytest
       - name: Upload wheels
         uses: actions/upload-artifact@v2
@@ -104,11 +104,11 @@ jobs:
         target: ${{ matrix.target }}
         manylinux: auto
         args: --release --out dist --no-sdist
-    - name: Install built wheel
+    - name: Test wheel
       if: matrix.target == 'x86_64'
       run: |
         pip install ${{ env.name }} --no-index --find-links dist --force-reinstall
-        pip install pytest
+        pip install pytest pytest-asyncio
         pytest
     - name: Upload wheels
       uses: actions/upload-artifact@v2
@@ -120,6 +120,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    needs: [windows, macos, linux]
     steps:
       - uses: actions/download-artifact@v2
         with:
