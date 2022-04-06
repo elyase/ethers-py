@@ -27,7 +27,7 @@ jobs:
         with:
           toolchain: stable
           profile: minimal
-          default: true
+          override: true
       - name: Build wheels - x86_64
         uses: messense/maturin-action@v1
         with:
@@ -70,7 +70,7 @@ jobs:
         with:
           toolchain: stable
           profile: minimal
-          default: true
+          override: true
       - name: Build wheels
         uses: messense/maturin-action@v1
         with:
