@@ -7,7 +7,7 @@ extras["docs"] = ["setuptools_rust", "sphinx-copybutton", "sphinx_book_theme"]
 
 setup(
     name="ethers",
-    version="0.1.0",
+    version="0.1.1",
     description="Python library for interacting with the Ethereum Blockchain ",
     long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
