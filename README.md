@@ -1,12 +1,11 @@
 # ethers-py
 Python library for interacting with the Ethereum Blockchain and bindings for the great [ethers-rs](https://github.com/gakonst/ethers-rs)
 
-## Usage/Examples
-
-Until [wheels for pypi are available](https://github.com/pypa/pypi-support/issues/1794) you need to [install the rust toolchain](https://www.rust-lang.org/tools/install) and then run:
+## Install
 
 ```bash
-pip install git+https://github.com/elyase/ethers-py
+pip install -U pip
+pip install ethers
 ```
 
 ## Getting started
