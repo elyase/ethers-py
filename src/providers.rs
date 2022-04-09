@@ -5,6 +5,7 @@ use pyo3::prelude::*;
 use pyo3_asyncio::tokio::future_into_py;
 use pythonize::pythonize;
 use std::convert::TryFrom;
+use std::str::FromStr;
 use std::sync::Arc;
 
 /// A HTTPProvider is an abstraction of a connection to the Ethereum network, providing a concise, consistent interface to standard Ethereum node functionality.
@@ -22,6 +23,14 @@ pub fn to_py_exception(err: impl std::fmt::Display) -> PyErr {
     PyException::new_err(format!("{}", err))
 }
 
+#[derive(FromPyObject)]
+pub enum PyBlockId {
+    #[pyo3(transparent, annotation = "str")]
+    Str(String),
+    #[pyo3(transparent, annotation = "int")]
+    Int(u64),
+}
+
 #[pymethods]
 impl HTTPProvider {
     #[new]
@@ -32,18 +41,22 @@ impl HTTPProvider {
         }
     }
 
-    /// Gets the block at `block_number`
+    /// Gets the block at `block_number_or_hash`
     ///
     /// Args:
-    ///     block_number (:obj:`int`):
-    ///         The block number to get.
+    ///     block_number_or_hash (Union[str, int]): The block number or hash.
     ///
     /// Returns:
-    ///     :obj:`dict`: Block object
-    #[pyo3(text_signature = "(self, block_number)")]
-    pub fn get_block<'p>(&self, py: Python<'p>, block_number: u64) -> PyResult<&'p PyAny> {
+    ///     dict: Block object
+    #[pyo3(text_signature = "(self, block_number_or_hash)")]
+    pub fn get_block<'p>(&self, py: Python<'p>, block_id: PyBlockId) -> PyResult<&'p PyAny> {
         let provider = Arc::clone(&self.provider);
         future_into_py(py, async move {
+            let block_number = match block_id {
+                PyBlockId::Str(id) => BlockId::Hash(H256::from_str(id.as_str()).unwrap()),
+                PyBlockId::Int(id) => BlockId::from(id),
+            };
+
             let block = provider
                 .get_block(block_number)
                 .await
@@ -52,9 +65,8 @@ impl HTTPProvider {
         })
     }
 
-
     /// Gets the latest block number via the `eth_BlockNumber` API
-    /// 
+    ///
     /// Returns:
     ///     :obj:`int`: latest block number
     #[pyo3(text_signature = "(self)")]
