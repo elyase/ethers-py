@@ -1,5 +1,6 @@
 use ethers::prelude::*;
 use ethers::providers::Http;
+use num_bigint::{BigInt, Sign};
 use pyo3::exceptions::PyException;
 use pyo3::prelude::*;
 use pyo3_asyncio::tokio::future_into_py;
@@ -31,6 +32,22 @@ pub enum PyBlockId {
     Int(u64),
 }
 
+impl Into<BlockId> for PyBlockId {
+    fn into(self) -> BlockId {
+        match self {
+            PyBlockId::Str(s) => BlockId::Hash(H256::from_str(s.as_str()).unwrap()),
+            PyBlockId::Int(i) => BlockId::from(i),
+        }
+    }
+}
+
+fn u256_to_bigint(u: U256) -> BigInt {
+    let mut bytes = [0u8; 32];
+    u.to_big_endian(&mut bytes);
+    BigInt::from_bytes_be(Sign::Plus, &bytes)
+}
+
+
 #[pymethods]
 impl HTTPProvider {
     #[new]
@@ -52,10 +69,7 @@ impl HTTPProvider {
     pub fn get_block<'p>(&self, py: Python<'p>, block_id: PyBlockId) -> PyResult<&'p PyAny> {
         let provider = Arc::clone(&self.provider);
         future_into_py(py, async move {
-            let block_number = match block_id {
-                PyBlockId::Str(id) => BlockId::Hash(H256::from_str(id.as_str()).unwrap()),
-                PyBlockId::Int(id) => BlockId::from(id),
-            };
+            let block_number: BlockId = block_id.into();
 
             let block = provider
                 .get_block(block_number)
@@ -65,7 +79,7 @@ impl HTTPProvider {
         })
     }
 
-    /// Gets the latest block number via the `eth_BlockNumber` API
+    /// Gets the latest ato_little_endianlock number via the `eth_BlockNumber` API
     ///
     /// Returns:
     ///     :obj:`int`: latest block number
@@ -81,10 +95,52 @@ impl HTTPProvider {
             Ok(Python::with_gil(|py| bn.to_object(py)))
         })
     }
+
+    /// Returns the account's balance of the given address or ENS name
+    ///
+    /// Args:
+    ///     address (string): The account's address or ENS name
+    ///
+    /// Returns:
+    ///     int: account's balance
+    #[pyo3(text_signature = "(self, address, block_id)")]
+    pub fn get_balance<'p>(
+        &self,
+        py: Python<'p>,
+        address: String,
+        block_id: PyBlockId,
+    ) -> PyResult<&'p PyAny> {
+        let provider = Arc::clone(&self.provider);
+        future_into_py(py, async move {
+            let block_id: BlockId = block_id.into();
+            let address = address.parse::<Address>().unwrap();
+            let balance = provider
+                .get_balance(address, Some(block_id))
+                .await
+                .map_err(to_py_exception)?;
+
+            let balance = u256_to_bigint(balance);
+            Ok(Python::with_gil(|py| balance.to_object(py)))
+        })
+    }
 }
 
 #[pymodule]
 pub fn providers(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<HTTPProvider>()?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use ethers::types::U256;
+    use super::*;
+
+    #[test]
+    fn test() {
+        let u = U256::from_dec_str("12").unwrap();
+        let b = u256_to_bigint(u);
+        println!("BigInt {}", b);
+        println!("U256 {}", u);
+    }
 }
