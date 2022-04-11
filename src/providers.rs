@@ -1,6 +1,5 @@
 use ethers::prelude::*;
 use ethers::providers::Http;
-use num_bigint::{BigInt, Sign};
 use pyo3::exceptions::PyException;
 use pyo3::prelude::*;
 use pyo3_asyncio::tokio::future_into_py;
@@ -8,6 +7,8 @@ use pythonize::pythonize;
 use std::convert::TryFrom;
 use std::str::FromStr;
 use std::sync::Arc;
+
+use crate::conversions::PyU256;
 
 /// A HTTPProvider is an abstraction of a connection to the Ethereum network, providing a concise, consistent interface to standard Ethereum node functionality.
 ///
@@ -40,13 +41,6 @@ impl Into<BlockId> for PyBlockId {
         }
     }
 }
-
-fn u256_to_bigint(u: U256) -> BigInt {
-    let mut bytes = [0u8; 32];
-    u.to_big_endian(&mut bytes);
-    BigInt::from_bytes_be(Sign::Plus, &bytes)
-}
-
 
 #[pymethods]
 impl HTTPProvider {
@@ -119,7 +113,7 @@ impl HTTPProvider {
                 .await
                 .map_err(to_py_exception)?;
 
-            let balance = u256_to_bigint(balance);
+            let balance = PyU256::new(balance);
             Ok(Python::with_gil(|py| balance.to_object(py)))
         })
     }
@@ -133,8 +127,8 @@ pub fn providers(_py: Python, m: &PyModule) -> PyResult<()> {
 
 #[cfg(test)]
 mod tests {
-    use ethers::types::U256;
     use super::*;
+    use ethers::types::U256;
 
     #[test]
     fn test() {

@@ -4,8 +4,7 @@ use pyo3::wrap_pymodule;
 
 mod providers;
 use providers::*;
-
-
+mod conversions;
 
 #[pymodule]
 fn ethers(py: Python, m: &PyModule) -> PyResult<()> {
