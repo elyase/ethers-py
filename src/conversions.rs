@@ -10,8 +10,8 @@ use std::os::raw::{c_int, c_uchar};
 
 pub fn u256_to_bigint(u: U256) -> BigInt {
     let mut bytes = [0u8; 32];
-    u.to_big_endian(&mut bytes);
-    BigInt::from_bytes_be(Sign::Plus, &bytes)
+    u.to_little_endian(&mut bytes);
+    BigInt::from_bytes_le(Sign::NoSign, &bytes)
 }
 pub struct PyU256(U256);
 
