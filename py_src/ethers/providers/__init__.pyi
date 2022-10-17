@@ -10,21 +10,32 @@ class HTTPProvider:
 
     def __init__(self, endpoint):
         pass
-    def get_block(self, block_number):
+    def get_balance(self, address, block_id):
         """
-        /// Gets the block at `block_number`
+        Returns the account's balance of the given address or ENS name
 
         Args:
-            block_number (:obj:`int`):
-                The block number to get.
+            address (string): The account's address or ENS name
 
         Returns:
-            :obj:`dict`: Block object
+            int: account's balance
+        """
+        pass
+    def get_block(self, block_number_or_hash):
+        """
+        Gets the block at `block_number_or_hash`
+
+        Args:
+            block_number_or_hash (Union[str, int]): The block number or hash.
+
+        Returns:
+            dict: Block object
         """
         pass
     def get_block_number(self):
         """
-        Gets the latest block number via the `eth_BlockNumber` API
+        Gets the latest ato_little_endianlock number via the `eth_BlockNumber` API
+
         Returns:
             :obj:`int`: latest block number
         """

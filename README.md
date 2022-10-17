@@ -18,9 +18,12 @@ block_number = await provider.get_block_number()
 # 14429070
 ```
 
-## Documentation
+## Development setup
 
-[Documentation](https://linktodocumentation)
+```
+pip install -r requirements-dev.txt
+maturin develop
+```
 
 ## Features
 
